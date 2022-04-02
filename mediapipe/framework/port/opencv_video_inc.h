@@ -24,7 +24,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/video/video.hpp>
 // Copied from "opencv2/videoio.hpp" in OpenCV 4.0.1
-namespace cv {
+namespace cv {//
 enum VideoCaptureProperties {
   CAP_PROP_POS_MSEC = 0,
   CAP_PROP_POS_FRAMES = 1,
@@ -85,13 +85,13 @@ inline int fourcc(char c1, char c2, char c3, char c4) {
 #include <opencv2/videoio.hpp>
 
 #if CV_VERSION_MAJOR == 4 && !defined(MEDIAPIPE_MOBILE)
-#include <opencv2/optflow.hpp>
+// #include <opencv2/optflow.hpp>
 
-namespace cv {
-inline Ptr<DenseOpticalFlow> createOptFlow_DualTVL1() {
-  return optflow::createOptFlow_DualTVL1();
-}
-}  // namespace cv
+// namespace cv {
+// inline Ptr<DenseOpticalFlow> createOptFlow_DualTVL1() {
+//   return optflow::createOptFlow_DualTVL1();
+// }
+// }  // namespace cv
 #endif
 
 namespace mediapipe {
