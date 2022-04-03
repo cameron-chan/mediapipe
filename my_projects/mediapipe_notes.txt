@@ -1,0 +1,44 @@
+# BUILD - hand tracking GPU example
+Flags for CPU
+```
+bazel build -c opt --define MEDIAPIPE_DISABLE_GPU=1 mediapipe/examples/desktop/hand_tracking:hand_tracking_cpu
+
+```
+
+Flags for GPU
+```
+bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS --copt -DEGL_NO_X11 \
+  mediapipe/examples/desktop/hand_tracking:hand_tracking_gpu
+```
+
+Flags for CUDA
+```
+bazel build -c opt --config=cuda --spawn_strategy=local \
+    --define no_aws_support=true --copt -DMESA_EGL_NO_X11_HEADERS \
+    mediapipe/examples/desktop/object_detection:object_detection_tensorflow
+```
+
+# RUN - hand tracking GPU example
+GLOG then TARGET then GRAPH (then SIDE_PACKETS if any)
+Remember to replace ':' from target with '/' if there is one
+```
+GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/hand_tracking/hand_tracking_gpu   --calculator_graph_config_file=mediapipe/graphs/hand_tracking/hand_tracking_desktop_live_gpu.pbtxt
+
+```
+
+# Example with side packets
+```
+GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/object_detection/object_detection_tflite \
+  --calculator_graph_config_file=mediapipe/graphs/object_detection/object_detection_desktop_tflite_graph.pbtxt \
+  --input_side_packets=input_video_path=<input video path>,output_video_path=<output video path>
+```
+
+# using example video paths
+GLOG_logtostderr=1 bazel-bin/mediapipe/examples/desktop/object_detection/object_detection_tflite \
+  --calculator_graph_config_file=mediapipe/graphs/object_detection/object_detection_desktop_tflite_graph.pbtxt \
+  --input_side_packets=input_video_path=mediapipe/examples/desktop/object_detection/test_video.mp4,output_video_path=mediapipe/examples/desktop/object_detection/test_video_result.mp4
+
+# CUSTOM
+# Running my custom 'run_graph' file
+GLOG_logtostderr=1 bazel-bin/my_projects/projects/hand_tracking/hand_tracking_cpu --calculator_graph_config_file=mediapipe/graphs/hand_tracking/hand_tracking_desktop_live.pbtxt
+
